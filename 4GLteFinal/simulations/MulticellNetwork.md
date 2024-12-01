@@ -1,0 +1,15 @@
+# Multicell Network Topology package for Multicell Simulation 
+This .ned topology file defines a multicell LTE simulation network named MultiCell that consists of several main elements, including eNodeBs (base stations), UEs (User Equipment), servers, routers, PGW (Packet Gateway), and other supporting modules. The network supports dynamic configuration with a default number of eNodeBs (numCells) of 3 and a default number of UEs (numUe) of 10. The network elements are organized with specific visual and functional positions.
+
+
+The topology includes LteChannelControl, which is responsible for managing LTE radio channel control and is located at the center of the network. The RoutingTableRecorder module records the routing table during simulation, while the Ipv4NetworkConfigurator manages the IP address configuration automatically. The Binder module is in charge of connecting nodes according to network policy, while CarrierAggregation handles spectrum pooling to increase network capacity.
+
+
+The server is on the core side of the network, connected to the Router via a 10Gbps Ethernet connection using an Eth10G module. The Router is further connected to a PGW (PgwStandard), which acts as a gateway between the core network and the eNodeBs. Each eNodeB (eNB[numCells]) is connected to the PGW via a 10Gbps Ethernet connection, with eNodeB positions distributed horizontally over the simulation area. Ue[numUe] modules represent user devices, whose positions are randomly arranged in the topology.
+
+The network is designed to support simulated communication between UEs and servers over LTE infrastructure. The connection between elements uses 10Gbps Ethernet technology to ensure fast data transfer. With modules such as CarrierAggregation and RoutingTableRecorder, this simulation enables in-depth analysis of multicell network performance, including spectrum management, routing, and interactions between nodes in LTE networks.
+
+## About Connections
+The server is connected to the Router via an Eth10G connection, which represents the core network at high speed. The Router is then connected to the PGW (Packet Gateway), which serves as the main link between the core network and radio access. The PGW is further connected to each eNodeB (base station) using a 10Gbps Ethernet connection. This connection ensures fast data communication between the core network elements and the base stations.
+
+Each eNodeB receives a direct connection from the PGW via the pppg++ port, which acts as the physical interface. The UE (User Equipment) module, which represents the user device, wirelessly connects to one of the eNodeBs according to the mobility configuration and network allocation. The Binder module ensures that the UE and eNodeB are properly connected according to the network policy. Meanwhile, the LteChannelControl module handles radio channel settings for wireless communication between the UE and the eNodeB, creating a dynamic connection that enables data transfer between devices.
