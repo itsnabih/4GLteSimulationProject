@@ -1,0 +1,1378 @@
+file 58472 1732898657                                           
+version 3
+run VoIP-0-20241129-23:42:38-2920
+attr configname VoIP
+attr datetime 20241129-23:42:38
+attr datetimef 20241129-234238
+attr experiment VoIP
+attr inifile omnetppMulticell.ini
+attr iterationvars $numUEs=10
+attr iterationvarsd numUEs=10
+attr iterationvarsf numUEs=10-
+attr measurement $numUEs=10
+attr network _4gltefinal.simulations.MultiCell
+attr processid 2920
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 0
+attr seedset 0
+itervar numUEs 10
+config image-path ../../inet4.5/images;../../simu5g/images
+config network _4gltefinal.simulations.MultiCell
+config **.mac.schedulingDisciplineDl "\"MAXCI\""
+config **.mac.schedulingDisciplineUl "\"MAXCI\""
+config **.ue[*].numApps 1
+config **.server.numApps 1
+config **.ue[*].mobility.initFromDisplayString false
+config **.ue[*].mobility.typename LinearMobility
+config **.ue[*].mobility.speed "uniform(1mps, 3mps)"
+config **.ue[*].macCellId "intuniform(1, 3)"
+config **.ue[*].masterId "intuniform(1, 3)"
+config **.ue[*].app[*].typename VoIPReceiver
+config **.ue[*].app[*].localPort 3000
+config **.server.app[*].PacketSize 40
+config **.server.app[*].destAddress "\"ue[\"+string(ancestorIndex(0))+\"]\""
+config **.server.app[*].destPort 3000
+config **.server.app[*].localPort "3088 + ancestorIndex(0)"
+config **.server.app[*].typename VoIPSender
+config **.server.app[*].startTime "uniform(0s, 0.02s)"
+config **.server.app[*].qos "\"HighPriority\""
+config **.ue[*].app[*].qos "\"HighPriority\""
+config image-path ../../images
+config output-scalar-file-append false
+config sim-time-limit 20s
+config output-scalar-file results/VoIP/0.sca
+config output-vector-file results/VoIP/0.vec
+config seed-set 0
+config **.vector-recording true
+config **.ue[*].mobility.typename StationaryMobility
+config **.ue[*].mobility.initialX "uniform(400m, 800m)"
+config **.ue[*].mobility.initialY "uniform(400m, 800m)"
+config **.ue[*].mobility.initialZ 0m
+config **.mobility.constraintAreaMinX 0m
+config **.mobility.constraintAreaMinY 0m
+config **.mobility.constraintAreaMaxX 2000m
+config **.mobility.constraintAreaMaxY 2000m
+config **.mobility.constraintAreaMinZ 0m
+config **.mobility.constraintAreaMaxZ 0m
+config **.mobility.initFromDisplayString true
+config *.numCells 3
+config *.numUe 10
+config **.ueTxPower 26
+config **.eNodeBTxPower 40
+config *.configurator.config "xmldoc(\"./demo.xml\")"
+
+vector 0 MultiCell.server.ppp[0].queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 1 MultiCell.server.ppp[0].queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 2 MultiCell.server.ppp[0].ppp transmissionState:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source transmissionStateChanged
+attr title "tx state"
+vector 3 MultiCell.server.udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetSentToUpper
+attr title "packets passed up, count"
+vector 4 MultiCell.server.udp droppedPkWrongPort:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+vector 5 MultiCell.server.udp droppedPkBadChecksum:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+vector 6 MultiCell.router.ppp[0].queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 7 MultiCell.router.ppp[0].queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 8 MultiCell.router.ppp[0].ppp transmissionState:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source transmissionStateChanged
+attr title "tx state"
+vector 9 MultiCell.router.ppp[1].queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 10 MultiCell.router.ppp[1].queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 11 MultiCell.router.ppp[1].ppp transmissionState:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source transmissionStateChanged
+attr title "tx state"
+vector 12 MultiCell.pgw.ppp[0].queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 13 MultiCell.pgw.ppp[0].queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 14 MultiCell.pgw.ppp[0].ppp transmissionState:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source transmissionStateChanged
+attr title "tx state"
+vector 15 MultiCell.pgw.ppp[1].queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 16 MultiCell.pgw.ppp[1].queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 17 MultiCell.pgw.ppp[1].ppp transmissionState:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source transmissionStateChanged
+attr title "tx state"
+vector 18 MultiCell.pgw.ppp[2].queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 19 MultiCell.pgw.ppp[2].queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 20 MultiCell.pgw.ppp[2].ppp transmissionState:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source transmissionStateChanged
+attr title "tx state"
+vector 21 MultiCell.pgw.pppIf.queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 22 MultiCell.pgw.pppIf.queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 23 MultiCell.pgw.pppIf.ppp transmissionState:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source transmissionStateChanged
+attr title "tx state"
+vector 24 MultiCell.pgw.udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetSentToUpper
+attr title "packets passed up, count"
+vector 25 MultiCell.pgw.udp droppedPkWrongPort:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+vector 26 MultiCell.pgw.udp droppedPkBadChecksum:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+vector 27 MultiCell.eNB[0].pppIf.queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 28 MultiCell.eNB[0].pppIf.queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 29 MultiCell.eNB[0].pppIf.ppp transmissionState:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source transmissionStateChanged
+attr title "tx state"
+vector 30 MultiCell.eNB[0].pppMEHostIf.queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 31 MultiCell.eNB[0].pppMEHostIf.queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 32 MultiCell.eNB[0].pppMEHostIf.ppp transmissionState:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source transmissionStateChanged
+attr title "tx state"
+vector 33 MultiCell.eNB[0].udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetSentToUpper
+attr title "packets passed up, count"
+vector 34 MultiCell.eNB[0].udp droppedPkWrongPort:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+vector 35 MultiCell.eNB[0].udp droppedPkBadChecksum:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+vector 36 MultiCell.eNB[1].pppIf.queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 37 MultiCell.eNB[1].pppIf.queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 38 MultiCell.eNB[1].pppIf.ppp transmissionState:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source transmissionStateChanged
+attr title "tx state"
+vector 39 MultiCell.eNB[1].pppMEHostIf.queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 40 MultiCell.eNB[1].pppMEHostIf.queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 41 MultiCell.eNB[1].pppMEHostIf.ppp transmissionState:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source transmissionStateChanged
+attr title "tx state"
+vector 42 MultiCell.eNB[1].udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetSentToUpper
+attr title "packets passed up, count"
+vector 43 MultiCell.eNB[1].udp droppedPkWrongPort:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+vector 44 MultiCell.eNB[1].udp droppedPkBadChecksum:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+vector 45 MultiCell.eNB[2].pppIf.queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 46 MultiCell.eNB[2].pppIf.queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 47 MultiCell.eNB[2].pppIf.ppp transmissionState:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source transmissionStateChanged
+attr title "tx state"
+vector 48 MultiCell.eNB[2].pppMEHostIf.queue queueLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + count(packetPushStarted) - count(packetPulled) - count(packetRemoved) - count(packetDropped)))"
+attr title "queue length"
+attr unit pk
+vector 49 MultiCell.eNB[2].pppMEHostIf.queue queueBitLength:vector ETV
+attr autoWarmupFilter false
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source "warmup(atomic(constant0(packetPushEnded) + sum(packetLength(packetPushStarted)) - sum(packetLength(packetPulled)) - sum(packetLength(packetRemoved)) - sum(packetLength(packetDropped))))"
+attr title "queue bit length"
+attr unit b
+vector 50 MultiCell.eNB[2].pppMEHostIf.ppp transmissionState:vector ETV
+attr interpolationmode sample-hold
+attr recordingmode vector
+attr source transmissionStateChanged
+attr title "tx state"
+vector 51 MultiCell.eNB[2].udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetSentToUpper
+attr title "packets passed up, count"
+vector 52 MultiCell.eNB[2].udp droppedPkWrongPort:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+vector 53 MultiCell.eNB[2].udp droppedPkBadChecksum:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+vector 54 MultiCell.ue[0].udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetSentToUpper
+attr title "packets passed up, count"
+vector 55 MultiCell.ue[0].udp droppedPkWrongPort:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+vector 56 MultiCell.ue[0].udp droppedPkBadChecksum:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+vector 57 MultiCell.ue[1].udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetSentToUpper
+attr title "packets passed up, count"
+vector 58 MultiCell.ue[1].udp droppedPkWrongPort:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+vector 59 MultiCell.ue[1].udp droppedPkBadChecksum:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+vector 60 MultiCell.ue[2].udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetSentToUpper
+attr title "packets passed up, count"
+vector 61 MultiCell.ue[2].udp droppedPkWrongPort:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+vector 62 MultiCell.ue[2].udp droppedPkBadChecksum:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+vector 63 MultiCell.ue[3].udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetSentToUpper
+attr title "packets passed up, count"
+vector 64 MultiCell.ue[3].udp droppedPkWrongPort:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+vector 65 MultiCell.ue[3].udp droppedPkBadChecksum:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+vector 66 MultiCell.ue[4].udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetSentToUpper
+attr title "packets passed up, count"
+vector 67 MultiCell.ue[4].udp droppedPkWrongPort:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+vector 68 MultiCell.ue[4].udp droppedPkBadChecksum:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+vector 69 MultiCell.ue[5].udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetSentToUpper
+attr title "packets passed up, count"
+vector 70 MultiCell.ue[5].udp droppedPkWrongPort:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+vector 71 MultiCell.ue[5].udp droppedPkBadChecksum:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+vector 72 MultiCell.ue[6].udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetSentToUpper
+attr title "packets passed up, count"
+vector 73 MultiCell.ue[6].udp droppedPkWrongPort:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+vector 74 MultiCell.ue[6].udp droppedPkBadChecksum:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+vector 75 MultiCell.ue[7].udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetSentToUpper
+attr title "packets passed up, count"
+vector 76 MultiCell.ue[7].udp droppedPkWrongPort:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+vector 77 MultiCell.ue[7].udp droppedPkBadChecksum:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+vector 78 MultiCell.ue[8].udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetSentToUpper
+attr title "packets passed up, count"
+vector 79 MultiCell.ue[8].udp droppedPkWrongPort:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+vector 80 MultiCell.ue[8].udp droppedPkBadChecksum:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+vector 81 MultiCell.ue[9].udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetSentToUpper
+attr title "packets passed up, count"
+vector 82 MultiCell.ue[9].udp droppedPkWrongPort:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsNoPortFound(packetDropped)
+attr title "packets dropped (wrong port), count"
+vector 83 MultiCell.ue[9].udp droppedPkBadChecksum:vector(count) ETV
+attr interpolationmode none
+attr recordingmode vector(count)
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packets dropped (checksum error), count"
+vector 84 MultiCell.ue[0].cellularNic.phy servingCell:vector ETV
+attr recordingmode vector
+attr source servingCell
+attr title "ID of the serving eNodeB for the UE"
+attr unit ""
+vector 85 MultiCell.ue[1].cellularNic.phy servingCell:vector ETV
+attr recordingmode vector
+attr source servingCell
+attr title "ID of the serving eNodeB for the UE"
+attr unit ""
+vector 86 MultiCell.ue[2].cellularNic.phy servingCell:vector ETV
+attr recordingmode vector
+attr source servingCell
+attr title "ID of the serving eNodeB for the UE"
+attr unit ""
+vector 87 MultiCell.ue[3].cellularNic.phy servingCell:vector ETV
+attr recordingmode vector
+attr source servingCell
+attr title "ID of the serving eNodeB for the UE"
+attr unit ""
+vector 88 MultiCell.ue[4].cellularNic.phy servingCell:vector ETV
+attr recordingmode vector
+attr source servingCell
+attr title "ID of the serving eNodeB for the UE"
+attr unit ""
+vector 89 MultiCell.ue[5].cellularNic.phy servingCell:vector ETV
+attr recordingmode vector
+attr source servingCell
+attr title "ID of the serving eNodeB for the UE"
+attr unit ""
+vector 90 MultiCell.ue[6].cellularNic.phy servingCell:vector ETV
+attr recordingmode vector
+attr source servingCell
+attr title "ID of the serving eNodeB for the UE"
+attr unit ""
+vector 91 MultiCell.ue[7].cellularNic.phy servingCell:vector ETV
+attr recordingmode vector
+attr source servingCell
+attr title "ID of the serving eNodeB for the UE"
+attr unit ""
+vector 92 MultiCell.ue[8].cellularNic.phy servingCell:vector ETV
+attr recordingmode vector
+attr source servingCell
+attr title "ID of the serving eNodeB for the UE"
+attr unit ""
+vector 93 MultiCell.ue[9].cellularNic.phy servingCell:vector ETV
+attr recordingmode vector
+attr source servingCell
+attr title "ID of the serving eNodeB for the UE"
+attr unit ""
+vector 94 MultiCell.eNB[0].cellularNic.mac avgServedBlocksUl:vector ETV
+attr recordingmode vector
+attr source avgServedBlocksUl
+attr title "Avg Served Blocks Ul"
+attr unit blocks
+vector 95 MultiCell.eNB[0].cellularNic.mac avgServedBlocksDl:vector ETV
+attr recordingmode vector
+attr source avgServedBlocksDl
+attr title "Avg Served Blocks Dl"
+attr unit blocks
+vector 96 MultiCell.eNB[1].cellularNic.mac avgServedBlocksUl:vector ETV
+attr recordingmode vector
+attr source avgServedBlocksUl
+attr title "Avg Served Blocks Ul"
+attr unit blocks
+vector 97 MultiCell.eNB[1].cellularNic.mac avgServedBlocksDl:vector ETV
+attr recordingmode vector
+attr source avgServedBlocksDl
+attr title "Avg Served Blocks Dl"
+attr unit blocks
+vector 98 MultiCell.eNB[2].cellularNic.mac avgServedBlocksUl:vector ETV
+attr recordingmode vector
+attr source avgServedBlocksUl
+attr title "Avg Served Blocks Ul"
+attr unit blocks
+vector 99 MultiCell.eNB[2].cellularNic.mac avgServedBlocksDl:vector ETV
+attr recordingmode vector
+attr source avgServedBlocksDl
+attr title "Avg Served Blocks Dl"
+attr unit blocks
+vector 100 MultiCell.ue[0].cellularNic.channelModel[0] measuredSinrUl:vector ETV
+attr recordingmode vector
+attr source measuredSinrUl
+attr title "SINR measured at feedback computation, UL"
+attr unit dB
+vector 101 MultiCell.ue[0].cellularNic.channelModel[0] measuredSinrDl:vector ETV
+attr recordingmode vector
+attr source measuredSinrDl
+attr title "SINR measured at feedback computation, DL"
+attr unit dB
+vector 102 MultiCell.eNB[1].cellularNic.mac receivedPacketFromLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromLowerLayer
+vector 103 MultiCell.ue[1].cellularNic.channelModel[0] measuredSinrUl:vector ETV
+attr recordingmode vector
+attr source measuredSinrUl
+attr title "SINR measured at feedback computation, UL"
+attr unit dB
+vector 104 MultiCell.ue[1].cellularNic.channelModel[0] measuredSinrDl:vector ETV
+attr recordingmode vector
+attr source measuredSinrDl
+attr title "SINR measured at feedback computation, DL"
+attr unit dB
+vector 105 MultiCell.ue[2].cellularNic.channelModel[0] measuredSinrUl:vector ETV
+attr recordingmode vector
+attr source measuredSinrUl
+attr title "SINR measured at feedback computation, UL"
+attr unit dB
+vector 106 MultiCell.ue[2].cellularNic.channelModel[0] measuredSinrDl:vector ETV
+attr recordingmode vector
+attr source measuredSinrDl
+attr title "SINR measured at feedback computation, DL"
+attr unit dB
+vector 107 MultiCell.eNB[0].cellularNic.mac receivedPacketFromLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromLowerLayer
+vector 108 MultiCell.ue[3].cellularNic.channelModel[0] measuredSinrUl:vector ETV
+attr recordingmode vector
+attr source measuredSinrUl
+attr title "SINR measured at feedback computation, UL"
+attr unit dB
+vector 109 MultiCell.ue[3].cellularNic.channelModel[0] measuredSinrDl:vector ETV
+attr recordingmode vector
+attr source measuredSinrDl
+attr title "SINR measured at feedback computation, DL"
+attr unit dB
+vector 110 MultiCell.ue[4].cellularNic.channelModel[0] measuredSinrUl:vector ETV
+attr recordingmode vector
+attr source measuredSinrUl
+attr title "SINR measured at feedback computation, UL"
+attr unit dB
+vector 111 MultiCell.ue[4].cellularNic.channelModel[0] measuredSinrDl:vector ETV
+attr recordingmode vector
+attr source measuredSinrDl
+attr title "SINR measured at feedback computation, DL"
+attr unit dB
+vector 112 MultiCell.ue[5].cellularNic.channelModel[0] measuredSinrUl:vector ETV
+attr recordingmode vector
+attr source measuredSinrUl
+attr title "SINR measured at feedback computation, UL"
+attr unit dB
+vector 113 MultiCell.ue[5].cellularNic.channelModel[0] measuredSinrDl:vector ETV
+attr recordingmode vector
+attr source measuredSinrDl
+attr title "SINR measured at feedback computation, DL"
+attr unit dB
+vector 114 MultiCell.ue[6].cellularNic.channelModel[0] measuredSinrUl:vector ETV
+attr recordingmode vector
+attr source measuredSinrUl
+attr title "SINR measured at feedback computation, UL"
+attr unit dB
+vector 115 MultiCell.ue[6].cellularNic.channelModel[0] measuredSinrDl:vector ETV
+attr recordingmode vector
+attr source measuredSinrDl
+attr title "SINR measured at feedback computation, DL"
+attr unit dB
+vector 116 MultiCell.ue[7].cellularNic.channelModel[0] measuredSinrUl:vector ETV
+attr recordingmode vector
+attr source measuredSinrUl
+attr title "SINR measured at feedback computation, UL"
+attr unit dB
+vector 117 MultiCell.ue[7].cellularNic.channelModel[0] measuredSinrDl:vector ETV
+attr recordingmode vector
+attr source measuredSinrDl
+attr title "SINR measured at feedback computation, DL"
+attr unit dB
+vector 118 MultiCell.eNB[2].cellularNic.mac receivedPacketFromLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromLowerLayer
+vector 119 MultiCell.ue[8].cellularNic.channelModel[0] measuredSinrUl:vector ETV
+attr recordingmode vector
+attr source measuredSinrUl
+attr title "SINR measured at feedback computation, UL"
+attr unit dB
+vector 120 MultiCell.ue[8].cellularNic.channelModel[0] measuredSinrDl:vector ETV
+attr recordingmode vector
+attr source measuredSinrDl
+attr title "SINR measured at feedback computation, DL"
+attr unit dB
+vector 121 MultiCell.ue[9].cellularNic.channelModel[0] measuredSinrUl:vector ETV
+attr recordingmode vector
+attr source measuredSinrUl
+attr title "SINR measured at feedback computation, UL"
+attr unit dB
+vector 122 MultiCell.ue[9].cellularNic.channelModel[0] measuredSinrDl:vector ETV
+attr recordingmode vector
+attr source measuredSinrDl
+attr title "SINR measured at feedback computation, DL"
+attr unit dB
+vector 123 MultiCell.server.app[0] voIPGeneratedThroughput:vector ETV
+attr recordingmode vector
+attr source voIPGeneratedThroughput
+attr title "Throughput generated by the application"
+attr unit Bps
+vector 124 MultiCell.server.udp packetSent:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSent
+attr title "packets sent, packetBytes"
+vector 125 MultiCell.server.ppp[0].queue incomingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPushStarted)
+attr title "incoming packet lengths"
+attr unit b
+vector 126 MultiCell.server.ppp[0].queue queueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(packetPulled)
+attr title "queueing times"
+attr unit s
+vector 127 MultiCell.server.ppp[0].queue outgoingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPulled)
+attr title "outgoing packet lengths"
+attr unit b
+vector 128 MultiCell.server.ppp[0].ppp rcvdPkFromHl:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceivedFromUpper
+attr title "packets received from higher layer, packetBytes"
+vector 129 MultiCell.server.ppp[0].ppp txPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToLower
+attr title "packets transmitted, packetBytes"
+vector 130 MultiCell.router.ppp[0].ppp rxPkOk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source rxPkOk
+attr title "packets received OK, packetBytes"
+vector 131 MultiCell.router.ppp[0].ppp passedUpPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToUpper
+attr title "packets passed to higher layer, packetBytes"
+vector 132 MultiCell.router.ppp[1].queue incomingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPushStarted)
+attr title "incoming packet lengths"
+attr unit b
+vector 133 MultiCell.router.ppp[1].queue queueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(packetPulled)
+attr title "queueing times"
+attr unit s
+vector 134 MultiCell.router.ppp[1].queue outgoingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPulled)
+attr title "outgoing packet lengths"
+attr unit b
+vector 135 MultiCell.router.ppp[1].ppp rcvdPkFromHl:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceivedFromUpper
+attr title "packets received from higher layer, packetBytes"
+vector 136 MultiCell.router.ppp[1].ppp txPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToLower
+attr title "packets transmitted, packetBytes"
+vector 137 MultiCell.pgw.pppIf.ppp rxPkOk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source rxPkOk
+attr title "packets received OK, packetBytes"
+vector 138 MultiCell.pgw.pppIf.ppp passedUpPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToUpper
+attr title "packets passed to higher layer, packetBytes"
+vector 139 MultiCell.pgw.udp packetSent:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSent
+attr title "packets sent, packetBytes"
+vector 140 MultiCell.pgw.ppp[1].queue incomingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPushStarted)
+attr title "incoming packet lengths"
+attr unit b
+vector 141 MultiCell.pgw.ppp[1].queue queueingTime:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source queueingTime(packetPulled)
+attr title "queueing times"
+attr unit s
+vector 142 MultiCell.pgw.ppp[1].queue outgoingPacketLengths:vector ETV
+attr interpolationmode none
+attr recordingmode vector
+attr source packetLength(packetPulled)
+attr title "outgoing packet lengths"
+attr unit b
+vector 143 MultiCell.pgw.ppp[1].ppp rcvdPkFromHl:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceivedFromUpper
+attr title "packets received from higher layer, packetBytes"
+vector 144 MultiCell.pgw.ppp[1].ppp txPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToLower
+attr title "packets transmitted, packetBytes"
+vector 145 MultiCell.eNB[1].pppIf.ppp rxPkOk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source rxPkOk
+attr title "packets received OK, packetBytes"
+vector 146 MultiCell.eNB[1].pppIf.ppp passedUpPk:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetSentToUpper
+attr title "packets passed to higher layer, packetBytes"
+vector 147 MultiCell.eNB[1].udp packetReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceived
+attr title "packets received, packetBytes"
+vector 148 MultiCell.eNB[1].cellularNic.pdcpRrc receivedPacketFromUpperLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromUpperLayer
+vector 149 MultiCell.eNB[1].cellularNic.pdcpRrc sentPacketToLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source sentPacketToLowerLayer
+vector 150 MultiCell.eNB[1].cellularNic.rlc.um receivedPacketFromUpperLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromUpperLayer
+vector 151 MultiCell.eNB[1].cellularNic.mac receivedPacketFromUpperLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromUpperLayer
+vector 152 MultiCell.eNB[1].cellularNic.mac measuredItbs:vector ETV
+attr recordingmode vector
+attr source measuredItbs
+attr title "TBS index"
+attr unit ""
+vector 153 MultiCell.eNB[1].cellularNic.mac sentPacketToUpperLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source sentPacketToUpperLayer
+vector 154 MultiCell.eNB[1].cellularNic.rlc.um rlcPacketLossDl:vector ETV
+attr recordingmode vector
+attr source rlcPacketLossDl
+attr title "rlc Packet Loss"
+attr unit ""
+vector 155 MultiCell.eNB[1].cellularNic.rlc.um sentPacketToLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source sentPacketToLowerLayer
+vector 156 MultiCell.eNB[1].cellularNic.mac sentPacketToLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source sentPacketToLowerLayer
+vector 157 MultiCell.ue[0].cellularNic.phy averageCqiDl:vector ETV
+attr recordingmode vector
+attr source averageCqiDl
+attr title "Average Cqi reported in DL"
+attr unit cqi
+vector 158 MultiCell.ue[0].cellularNic.channelModel[0] distance:vector ETV
+attr recordingmode vector
+attr source distance
+attr title "distance between UE and serving base station"
+attr unit meters
+vector 159 MultiCell.ue[0].cellularNic.channelModel[0] rcvdSinrDl:vector ETV
+attr recordingmode vector
+attr source rcvdSinrDl
+attr title "SINR measured at packet reception, DL"
+attr unit dB
+vector 160 MultiCell.ue[0].cellularNic.mac receivedPacketFromLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromLowerLayer
+vector 161 MultiCell.ue[0].cellularNic.mac sentPacketToLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source sentPacketToLowerLayer
+vector 162 MultiCell.eNB[1].cellularNic.mac macDelayDl:vector ETV
+attr recordingmode vector
+attr source macDelayDl
+attr title "Delay at the MAC layer UL"
+attr unit s
+vector 163 MultiCell.ue[0].cellularNic.mac sentPacketToUpperLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source sentPacketToUpperLayer
+vector 164 MultiCell.ue[0].cellularNic.rlc.um receivedPacketFromLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromLowerLayer
+vector 165 MultiCell.ue[0].cellularNic.rlc.um rlcPduThroughputDl:vector ETV
+attr recordingmode vector
+attr source rlcPduThroughputDl
+attr title "Throughput at the rlc layer DL"
+attr unit Bps
+vector 166 MultiCell.ue[0].cellularNic.rlc.um rlcPduDelayDl:vector ETV
+attr recordingmode vector
+attr source rlcPduDelayDl
+attr title "Delay at the rlc layer UL"
+attr unit s
+vector 167 MultiCell.ue[0].cellularNic.rlc.um rlcThroughputDl:vector ETV
+attr recordingmode vector
+attr source rlcThroughputDl
+attr title "Throughput at the rlc layer DL"
+attr unit Bps
+vector 168 MultiCell.ue[0].cellularNic.rlc.um rlcPacketLossDl:vector ETV
+attr recordingmode vector
+attr source rlcPacketLossDl
+attr title "rlc Packet Loss"
+attr unit ""
+vector 169 MultiCell.ue[0].cellularNic.rlc.um rlcPacketLossTotal:vector ETV
+attr recordingmode vector
+attr source rlcPacketLossTotal
+attr title "rlc Packet Loss"
+attr unit ""
+vector 170 MultiCell.ue[0].cellularNic.rlc.um rlcDelayDl:vector ETV
+attr recordingmode vector
+attr source rlcDelayDl
+attr title "Delay at the rlc layer DL"
+attr unit s
+vector 171 MultiCell.ue[0].cellularNic.rlc.um sentPacketToUpperLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source sentPacketToUpperLayer
+vector 172 MultiCell.ue[0].cellularNic.rlc.um rlcPduPacketLossDl:vector ETV
+attr recordingmode vector
+attr source rlcPduPacketLossDl
+attr title "rlc Packet Loss"
+attr unit ""
+vector 173 MultiCell.ue[0].cellularNic.pdcpRrc receivedPacketFromLowerLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source receivedPacketFromLowerLayer
+vector 174 MultiCell.ue[0].cellularNic.pdcpRrc sentPacketToUpperLayer:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source sentPacketToUpperLayer
+vector 175 MultiCell.ue[0].udp packetReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr recordingmode vector(packetBytes)
+attr source packetReceived
+attr title "packets received, packetBytes"
+vector 176 MultiCell.ue[0].app[0] voIPReceivedThroughput:vector ETV
+attr recordingmode vector
+attr source voIPReceivedThroughput
+attr title "Throughput received at the application level"
+attr unit Bps
+vector 177 MultiCell.ue[0].cellularNic.mac harqErrorRate_1st_Dl:vector ETV
+attr recordingmode vector
+attr source harqErrorRate_1st_Dl
+attr title "Harq Error Rate Dl (1st tx)"
+attr unit ""
+vector 178 MultiCell.ue[0].cellularNic.mac harqErrorRateDl:vector ETV
+attr recordingmode vector
+attr source harqErrorRateDl
+attr title "Harq Error Rate Dl"
+attr unit ""
+vector 179 MultiCell.ue[0].cellularNic.mac harqTxAttemptsDl:vector ETV
+attr recordingmode vector
+attr source harqTxAttemptsDl
+attr title "Harq Tx Attempts Dl"
+attr unit ""
+0	44289 68 0 266 0 0.01063718182 6 0 0 0 0
+1	44357 68 0 266 0 0.01063718182 6 0 0 0 0
+2	44425 55 0 267 0 0.01063724182 3 0 1 1 1
+3	44480 9 0 0 0 0 1 0 0 0 0
+4	44489 9 0 0 0 0 1 0 0 0 0
+5	44498 9 0 0 0 0 1 0 0 0 0
+6	44507 45 0 0 0 0 5 0 0 0 0
+7	44552 45 0 0 0 0 5 0 0 0 0
+8	44597 9 0 0 0 0 1 0 0 0 0
+9	44606 68 0 270 0 0.01063729182 6 0 0 0 0
+10	44674 74 0 270 0 0.01063729182 6 0 0 0 0
+11	44748 58 0 271 0 0.01063735182 3 0 1 1 1
+12	44806 50 0 0 0 0 5 0 0 0 0
+13	44856 50 0 0 0 0 5 0 0 0 0
+14	44906 10 0 0 0 0 1 0 0 0 0
+15	44916 74 0 277 0 0.01063740182 6 0 0 0 0
+16	44990 74 0 277 0 0.01063740182 6 0 0 0 0
+17	45064 58 0 278 0 0.01063749062 3 0 1 1 1
+18	45122 50 0 0 0 0 5 0 0 0 0
+19	45172 50 0 0 0 0 5 0 0 0 0
+20	45222 10 0 0 0 0 1 0 0 0 0
+21	45232 50 0 0 0 0 5 0 0 0 0
+22	45282 50 0 0 0 0 5 0 0 0 0
+23	45332 10 0 0 0 0 1 0 0 0 0
+24	45342 10 0 0 0 0 1 0 0 0 0
+25	45352 10 0 0 0 0 1 0 0 0 0
+26	45362 10 0 0 0 0 1 0 0 0 0
+27	45372 50 0 0 0 0 5 0 0 0 0
+28	45422 50 0 0 0 0 5 0 0 0 0
+29	45472 10 0 0 0 0 1 0 0 0 0
+30	45482 50 0 0 0 0 5 0 0 0 0
+31	45532 50 0 0 0 0 5 0 0 0 0
+32	45582 10 0 0 0 0 1 0 0 0 0
+33	45592 10 0 0 0 0 1 0 0 0 0
+34	45602 10 0 0 0 0 1 0 0 0 0
+35	45612 10 0 0 0 0 1 0 0 0 0
+36	45622 50 0 0 0 0 5 0 0 0 0
+37	45672 50 0 0 0 0 5 0 0 0 0
+38	45722 10 0 0 0 0 1 0 0 0 0
+39	45732 50 0 0 0 0 5 0 0 0 0
+40	45782 50 0 0 0 0 5 0 0 0 0
+41	45832 10 0 0 0 0 1 0 0 0 0
+42	45842 34 0 281 0 0.01063754062 2 0 1 1 1
+43	45876 10 0 0 0 0 1 0 0 0 0
+44	45886 10 0 0 0 0 1 0 0 0 0
+45	45896 50 0 0 0 0 5 0 0 0 0
+46	45946 50 0 0 0 0 5 0 0 0 0
+47	45996 10 0 0 0 0 1 0 0 0 0
+48	46006 50 0 0 0 0 5 0 0 0 0
+49	46056 50 0 0 0 0 5 0 0 0 0
+50	46106 10 0 0 0 0 1 0 0 0 0
+51	46116 10 0 0 0 0 1 0 0 0 0
+52	46126 10 0 0 0 0 1 0 0 0 0
+53	46136 10 0 0 0 0 1 0 0 0 0
+54	46146 26 0 409 0 0.015 2 0 1 1 1
+55	46172 10 0 0 0 0 1 0 0 0 0
+56	46182 10 0 0 0 0 1 0 0 0 0
+57	46192 10 0 0 0 0 1 0 0 0 0
+58	46202 10 0 0 0 0 1 0 0 0 0
+59	46212 10 0 0 0 0 1 0 0 0 0
+60	46222 10 0 0 0 0 1 0 0 0 0
+61	46232 10 0 0 0 0 1 0 0 0 0
+62	46242 10 0 0 0 0 1 0 0 0 0
+63	46252 10 0 0 0 0 1 0 0 0 0
+64	46262 10 0 0 0 0 1 0 0 0 0
+65	46272 10 0 0 0 0 1 0 0 0 0
+66	46282 10 0 0 0 0 1 0 0 0 0
+67	46292 10 0 0 0 0 1 0 0 0 0
+68	46302 10 0 0 0 0 1 0 0 0 0
+69	46312 10 0 0 0 0 1 0 0 0 0
+70	46322 10 0 0 0 0 1 0 0 0 0
+71	46332 10 0 0 0 0 1 0 0 0 0
+72	46342 10 0 0 0 0 1 0 0 0 0
+73	46352 10 0 0 0 0 1 0 0 0 0
+74	46362 10 0 0 0 0 1 0 0 0 0
+75	46372 10 0 0 0 0 1 0 0 0 0
+76	46382 10 0 0 0 0 1 0 0 0 0
+77	46392 10 0 0 0 0 1 0 0 0 0
+78	46402 10 0 0 0 0 1 0 0 0 0
+79	46412 10 0 0 0 0 1 0 0 0 0
+80	46422 10 0 0 0 0 1 0 0 0 0
+81	46432 10 0 0 0 0 1 0 0 0 0
+82	46442 10 0 0 0 0 1 0 0 0 0
+83	46452 10 0 0 0 0 1 0 0 0 0
+84	46462 10 0 0 0 0 1 2 2 2 4
+85	46472 10 0 0 0 0 1 2 2 2 4
+86	46482 10 0 0 0 0 1 1 1 1 1
+87	46492 10 0 0 0 0 1 1 1 1 1
+88	46502 10 0 0 0 0 1 2 2 2 4
+89	46512 10 0 0 0 0 1 1 1 1 1
+90	46522 10 0 0 0 0 1 2 2 2 4
+91	46532 10 0 0 0 0 1 3 3 3 9
+92	46542 10 0 0 0 0 1 2 2 2 4
+93	46552 10 0 0 0 0 1 1 1 1 1
+94	46562 315 42 509 0.001 0.02 20 0 0 0 0
+95	46877 315 42 509 0.001 0.02 20 0 0 0 0
+96	47192 315 43 510 0.001 0.02 20 0 0 0 0
+97	47507 315 43 510 0.001 0.02 20 0 1 1 1
+98	47822 315 44 511 0.001 0.02 20 0 0 0 0
+99	48137 315 44 511 0.001 0.02 20 0 0 0 0
+100	48452 92 74 379 0.002 0.014 3 37.289167682015 38.468989218409 113.04781354729 4260.8636507443
+101	48544 91 74 379 0.002 0.014 3 43.931243264677 45.316250001815 134.13552028098 5998.4516182608
+102	48635 267 75 440 0.002 0.016 16 1 1 16 16
+103	48902 92 76 381 0.002 0.014 3 28.320076584462 28.510530484884 85.150699382704 2416.9047149164
+104	48994 92 76 381 0.002 0.014 3 30.123810179441 30.944008990922 91.904583212116 2815.881648724
+105	49086 92 78 383 0.002 0.014 3 15.834313248587 18.857879775763 53.549582345382 961.94623769647
+106	49178 92 78 383 0.002 0.014 3 21.171891819166 22.487263165957 65.633893610789 1436.8151455638
+107	49270 200 79 398 0.002 0.014 12 1 1 12 12
+108	49470 92 80 385 0.002 0.014 3 26.594060087857 28.955178262216 84.504373972749 2384.0462590808
+109	49562 92 80 385 0.002 0.014 3 39.564082005609 42.573113353127 123.36856641393 5077.8125246158
+110	49654 92 82 387 0.002 0.014 3 20.350300046672 21.723568419291 62.424525652587 1300.1973847847
+111	49746 92 82 387 0.002 0.014 3 33.336579790076 36.554303384621 104.41182155381 3639.2398346093
+112	49838 92 84 389 0.002 0.014 3 14.493065204892 16.439618796461 45.425904859369 690.36345604544
+113	49930 92 84 389 0.002 0.014 3 38.239824496146 40.338171873178 117.80909082923 4628.5310600883
+114	50022 92 86 391 0.002 0.014 3 36.687523413004 36.892305791953 110.26942611492 4053.143122242
+115	50114 92 86 391 0.002 0.014 3 62.885485177097 66.442471328821 193.82430619755 12528.965365786
+116	50206 92 88 393 0.002 0.014 3 15.300700441764 17.868639813734 51.037515481932 872.67140872409
+117	50298 91 88 393 0.002 0.014 3 24.514688301779 25.747047606404 75.877286768913 1920.0368488784
+118	50389 50 89 394 0.002 0.014 3 1 1 3 3
+119	50439 92 90 395 0.002 0.014 3 30.873367404649 33.066083795594 94.81308191651 2999.7117860841
+120	50531 92 90 395 0.002 0.014 3 21.167734282616 24.016786085095 68.870383402226 1585.8990962065
+121	50623 92 92 397 0.002 0.014 3 18.182726151035 18.357535837474 54.723160271696 998.22844228441
+122	50715 92 92 397 0.002 0.014 3 19.622020649031 21.170514197449 61.202878686424 1249.7965014001
+123	50807 39 263 263 0.01063718182 0.01063718182 1 3760.3944989257 3760.3944989257 3760.3944989257 14140566.78755
+124	50846 26 264 264 0.01063718182 0.01063718182 1 48 48 48 2304
+125	50872 27 266 266 0.01063718182 0.01063718182 1 544 544 544 295936
+126	50899 25 266 266 0.01063718182 0.01063718182 1 0 0 0 0
+127	50924 27 266 266 0.01063718182 0.01063718182 1 544 544 544 295936
+128	50951 26 266 266 0.01063718182 0.01063718182 1 68 68 68 4624
+129	50977 26 266 266 0.01063718182 0.01063718182 1 75 75 75 5625
+130	51003 26 268 268 0.01063729182 0.01063729182 1 75 75 75 5625
+131	51029 26 268 268 0.01063729182 0.01063729182 1 68 68 68 4624
+132	51055 27 270 270 0.01063729182 0.01063729182 1 544 544 544 295936
+133	51082 25 270 270 0.01063729182 0.01063729182 1 0 0 0 0
+134	51107 27 270 270 0.01063729182 0.01063729182 1 544 544 544 295936
+135	51134 26 270 270 0.01063729182 0.01063729182 1 68 68 68 4624
+136	51160 26 270 270 0.01063729182 0.01063729182 1 75 75 75 5625
+137	51186 26 272 272 0.01063740182 0.01063740182 1 75 75 75 5625
+138	51212 26 272 272 0.01063740182 0.01063740182 1 68 68 68 4624
+139	51238 26 275 275 0.01063740182 0.01063740182 1 84 84 84 7056
+140	51264 27 277 277 0.01063740182 0.01063740182 1 832 832 832 692224
+141	51291 25 277 277 0.01063740182 0.01063740182 1 0 0 0 0
+142	51316 27 277 277 0.01063740182 0.01063740182 1 832 832 832 692224
+143	51343 27 277 277 0.01063740182 0.01063740182 1 104 104 104 10816
+144	51370 27 277 277 0.01063740182 0.01063740182 1 111 111 111 12321
+145	51397 27 279 279 0.01063754062 0.01063754062 1 111 111 111 12321
+146	51424 27 279 279 0.01063754062 0.01063754062 1 104 104 104 10816
+147	51451 26 281 281 0.01063754062 0.01063754062 1 84 84 84 7056
+148	51477 26 284 284 0.01063754062 0.01063754062 1 68 68 68 4624
+149	51503 26 284 284 0.01063754062 0.01063754062 1 69 69 69 4761
+150	51529 26 285 285 0.01063754062 0.01063754062 1 69 69 69 4761
+151	51555 44 287 293 0.01063754062 0.011 2 71 71 142 10082
+152	51599 108 289 289 0.011 0.011 6 26 26 156 4056
+153	51707 17 289 289 0.011 0.011 1 1 1 1 1
+154	51724 17 291 291 0.011 0.011 1 0 0 0 0
+155	51741 18 291 291 0.011 0.011 1 71 71 71 5041
+156	51759 18 306 306 0.011 0.011 1 73 73 73 5329
+157	51777 18 335 335 0.012 0.012 1 15 15 15 225
+158	51795 31 335 335 0.012 0.012 1 223.74406454834 223.74406454834 223.74406454834 50061.40642061
+159	51826 31 335 335 0.012 0.012 1 45.318361709778 45.318361709778 45.318361709778 2053.7539080583
+160	51857 18 336 336 0.012 0.012 1 73 73 73 5329
+161	51875 17 402 402 0.015 0.015 1 1 1 1 1
+162	51892 21 402 402 0.015 0.015 1 0.004 0.004 0.004 1.6e-05
+163	51913 18 402 402 0.015 0.015 1 71 71 71 5041
+164	51931 18 405 405 0.015 0.015 1 71 71 71 5041
+165	51949 17 405 405 0.015 0.015 1 0 0 0 0
+166	51966 21 405 405 0.015 0.015 1 0.004 0.004 0.004 1.6e-05
+167	51987 20 405 405 0.015 0.015 1 4600 4600 4600 21160000
+168	52007 17 405 405 0.015 0.015 1 0 0 0 0
+169	52024 17 405 405 0.015 0.015 1 0 0 0 0
+170	52041 29 405 405 0.015 0.015 1 0.00436245938 0.00436245938 0.00436245938 1.903105184215e-05
+171	52070 18 405 405 0.015 0.015 1 69 69 69 4761
+172	52088 17 405 405 0.015 0.015 1 0 0 0 0
+173	52105 18 406 406 0.015 0.015 1 69 69 69 4761
+174	52123 18 406 406 0.015 0.015 1 68 68 68 4624
+175	52141 18 409 409 0.015 0.015 1 48 48 48 2304
+176	52159 31 410 410 0.015 0.015 1 2666.6666666667 2666.6666666667 2666.6666666667 7111111.1111111
+177	52190 17 440 440 0.016 0.016 1 0 0 0 0
+178	52207 17 440 440 0.016 0.016 1 0 0 0 0
+179	52224 17 440 440 0.016 0.016 1 1 1 1 1
+vector 180 MultiCell.server.ppp[0].queue outgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPulled)
+attr title "outgoing datarate"
+attr unit bps
+vector 181 MultiCell.server.ppp[0].queue incomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPushStarted)
+attr title "incoming datarate"
+attr unit bps
+vector 182 MultiCell.router.ppp[0].queue outgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPulled)
+attr title "outgoing datarate"
+attr unit bps
+vector 183 MultiCell.router.ppp[0].queue incomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPushStarted)
+attr title "incoming datarate"
+attr unit bps
+vector 184 MultiCell.router.ppp[1].queue outgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPulled)
+attr title "outgoing datarate"
+attr unit bps
+vector 185 MultiCell.router.ppp[1].queue incomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPushStarted)
+attr title "incoming datarate"
+attr unit bps
+vector 186 MultiCell.pgw.ppp[0].queue outgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPulled)
+attr title "outgoing datarate"
+attr unit bps
+vector 187 MultiCell.pgw.ppp[0].queue incomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPushStarted)
+attr title "incoming datarate"
+attr unit bps
+vector 188 MultiCell.pgw.ppp[1].queue outgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPulled)
+attr title "outgoing datarate"
+attr unit bps
+vector 189 MultiCell.pgw.ppp[1].queue incomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPushStarted)
+attr title "incoming datarate"
+attr unit bps
+vector 190 MultiCell.pgw.ppp[2].queue outgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPulled)
+attr title "outgoing datarate"
+attr unit bps
+vector 191 MultiCell.pgw.ppp[2].queue incomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPushStarted)
+attr title "incoming datarate"
+attr unit bps
+vector 192 MultiCell.pgw.pppIf.queue outgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPulled)
+attr title "outgoing datarate"
+attr unit bps
+vector 193 MultiCell.pgw.pppIf.queue incomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPushStarted)
+attr title "incoming datarate"
+attr unit bps
+vector 194 MultiCell.eNB[0].pppIf.queue outgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPulled)
+attr title "outgoing datarate"
+attr unit bps
+vector 195 MultiCell.eNB[0].pppIf.queue incomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPushStarted)
+attr title "incoming datarate"
+attr unit bps
+vector 196 MultiCell.eNB[0].pppMEHostIf.queue outgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPulled)
+attr title "outgoing datarate"
+attr unit bps
+vector 197 MultiCell.eNB[0].pppMEHostIf.queue incomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPushStarted)
+attr title "incoming datarate"
+attr unit bps
+vector 198 MultiCell.eNB[1].pppIf.queue outgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPulled)
+attr title "outgoing datarate"
+attr unit bps
+vector 199 MultiCell.eNB[1].pppIf.queue incomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPushStarted)
+attr title "incoming datarate"
+attr unit bps
+vector 200 MultiCell.eNB[1].pppMEHostIf.queue outgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPulled)
+attr title "outgoing datarate"
+attr unit bps
+vector 201 MultiCell.eNB[1].pppMEHostIf.queue incomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPushStarted)
+attr title "incoming datarate"
+attr unit bps
+vector 202 MultiCell.eNB[2].pppIf.queue outgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPulled)
+attr title "outgoing datarate"
+attr unit bps
+vector 203 MultiCell.eNB[2].pppIf.queue incomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPushStarted)
+attr title "incoming datarate"
+attr unit bps
+vector 204 MultiCell.eNB[2].pppMEHostIf.queue outgoingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPulled)
+attr title "outgoing datarate"
+attr unit bps
+vector 205 MultiCell.eNB[2].pppMEHostIf.queue incomingDataRate:vector ETV
+attr interpolationmode linear
+attr recordingmode vector
+attr source throughput(packetPushStarted)
+attr title "incoming datarate"
+attr unit bps
+vector 206 MultiCell.ue[0].app[0] voIPFrameDelay:vector ETV
+attr recordingmode vector
+attr source voIPFrameDelay
+attr title "VoIP Frame Delay"
+attr unit s
+180	58002 20 513 513 0.02 0.02 1 27200 27200 27200 739840000
+181	58022 20 513 513 0.02 0.02 1 27200 27200 27200 739840000
+182	58042 16 513 513 0.02 0.02 1 0 0 0 0
+183	58058 16 513 513 0.02 0.02 1 0 0 0 0
+184	58074 20 513 513 0.02 0.02 1 27200 27200 27200 739840000
+185	58094 20 513 513 0.02 0.02 1 27200 27200 27200 739840000
+186	58114 16 513 513 0.02 0.02 1 0 0 0 0
+187	58130 16 513 513 0.02 0.02 1 0 0 0 0
+188	58146 20 513 513 0.02 0.02 1 41600 41600 41600 1730560000
+189	58166 20 513 513 0.02 0.02 1 41600 41600 41600 1730560000
+190	58186 16 513 513 0.02 0.02 1 0 0 0 0
+191	58202 16 513 513 0.02 0.02 1 0 0 0 0
+192	58218 16 513 513 0.02 0.02 1 0 0 0 0
+193	58234 16 513 513 0.02 0.02 1 0 0 0 0
+194	58250 16 513 513 0.02 0.02 1 0 0 0 0
+195	58266 16 513 513 0.02 0.02 1 0 0 0 0
+196	58282 16 513 513 0.02 0.02 1 0 0 0 0
+197	58298 16 513 513 0.02 0.02 1 0 0 0 0
+198	58314 16 513 513 0.02 0.02 1 0 0 0 0
+199	58330 16 513 513 0.02 0.02 1 0 0 0 0
+200	58346 16 513 513 0.02 0.02 1 0 0 0 0
+201	58362 16 513 513 0.02 0.02 1 0 0 0 0
+202	58378 16 513 513 0.02 0.02 1 0 0 0 0
+203	58394 16 513 513 0.02 0.02 1 0 0 0 0
+204	58410 16 513 513 0.02 0.02 1 0 0 0 0
+205	58426 16 513 513 0.02 0.02 1 0 0 0 0
+206	58442 28 513 513 0.02 0.02 1 0.00436281818 0.00436281818 0.00436281818 1.9034182471739e-05
+
